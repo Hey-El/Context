@@ -1,37 +1,50 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { View, Text } from "react-native";
+import { useState } from "react";
+import { Tabs, Link } from "expo-router";
+import Icons from "../(components)/icons";
+import IconButton from "../(utils)/iconButton";
+import ExpenseProvider from "../(components)/context";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const Tabslayout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+    <ExpenseProvider>
+      <Tabs>
+        <Tabs.Screen
+          name="index"
+          options={{
+            headerRight: () => (
+              <IconButton icon="add" size={24} color={"black"} />
+            ),
+            headerTitle: "All Expenses",
+            title: "Home",
+            tabBarIcon: ({ color, size }) => (
+              <Icons name="home" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="RecentExpenses"
+          options={{
+            headerTitle: "Recent Expenses",
+            title: "Recent",
+            tabBarIcon: ({ color, size }) => (
+              <Icons name="calendar" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="ManageExpenses"
+          options={{
+            headerTitle: "Add Expenses",
+            title: "Add",
+            tabBarIcon: ({ color, size }) => (
+              <Icons name="bag-add-outline" size={size} color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+    </ExpenseProvider>
   );
-}
+};
+
+export default Tabslayout;
